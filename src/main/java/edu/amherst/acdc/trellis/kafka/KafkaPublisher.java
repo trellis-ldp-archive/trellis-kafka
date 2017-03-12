@@ -61,7 +61,7 @@ public class KafkaPublisher implements EventService, AutoCloseable {
         requireNonNull(topicName);
 
         final Properties props = new Properties();
-        props.put("bootstrap.servers", System.getProperty("kafka.bootstrap.servers"));
+        props.put("bootstrap.servers", brokers);
         props.put("acks", System.getProperty("kafka.acks", "all"));
         props.put("retries", System.getProperty("kafka.retries", "0"));
         props.put("batch.size", System.getProperty("kafka.batch.size", "16384"));
@@ -72,6 +72,7 @@ public class KafkaPublisher implements EventService, AutoCloseable {
 
         this.topicName = topicName;
         this.producer = new KafkaProducer<>(props);
+        LOGGER.info("Created Kafka producer with {}", brokers);
     }
 
     @Override
@@ -86,6 +87,7 @@ public class KafkaPublisher implements EventService, AutoCloseable {
 
     @Override
     public void close() throws IOException {
+        LOGGER.info("Shutting down Kafka producer");
         producer.close();
     }
 }
