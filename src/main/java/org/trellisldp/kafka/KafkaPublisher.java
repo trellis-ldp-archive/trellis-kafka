@@ -1,6 +1,4 @@
 /*
- * Copyright Amherst College
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,15 +11,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.amherst.acdc.trellis.kafka;
+package org.trellisldp.kafka;
 
-import static edu.amherst.acdc.trellis.spi.EventService.serialize;
+import static org.trellisldp.spi.EventService.serialize;
 import static java.lang.System.getProperty;
 import static java.util.Objects.requireNonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import edu.amherst.acdc.trellis.spi.Event;
-import edu.amherst.acdc.trellis.spi.EventService;
+import org.trellisldp.spi.Event;
+import org.trellisldp.spi.EventService;
 
 import java.io.IOException;
 import java.util.Properties;
