@@ -13,13 +13,10 @@
  */
 package org.trellisldp.kafka;
 
-import static org.trellisldp.spi.EventService.serialize;
 import static java.lang.System.getProperty;
 import static java.util.Objects.requireNonNull;
 import static org.slf4j.LoggerFactory.getLogger;
-
-import org.trellisldp.spi.Event;
-import org.trellisldp.spi.EventService;
+import static org.trellisldp.spi.EventService.serialize;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -27,8 +24,9 @@ import java.util.Properties;
 import org.apache.commons.rdf.api.IRI;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-
 import org.slf4j.Logger;
+import org.trellisldp.spi.Event;
+import org.trellisldp.spi.EventService;
 
 /**
  * A Kafka message producer capable of publishing messages to a Kafka cluster.
