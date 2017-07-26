@@ -13,16 +13,12 @@
  */
 package org.trellisldp.kafka;
 
-import static java.lang.System.getProperty;
 import static java.util.Objects.requireNonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.trellisldp.spi.EventService.serialize;
 
-import java.io.IOException;
-import java.util.Properties;
-
 import org.apache.commons.rdf.api.IRI;
-import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.trellisldp.spi.Event;
@@ -33,57 +29,35 @@ import org.trellisldp.spi.EventService;
  *
  * @author acoburn
  */
-public class KafkaPublisher implements EventService, AutoCloseable {
+public class KafkaPublisher implements EventService {
 
     private static final Logger LOGGER = getLogger(KafkaPublisher.class);
 
-    private final KafkaProducer<String, String> producer;
+    private final Producer<String, String> producer;
     private final String topicName;
 
     /**
      * Create a new Kafka Publisher
-     */
-    public KafkaPublisher() {
-        this(getProperty("trellis.kafka.uri"), "event");
-    }
-
-    /**
-     * Create a new Kafka Publisher
-     * @param brokers the broker ids
+     * @param producer the producer
      * @param topicName the name of the topic
      */
-    public KafkaPublisher(final String brokers, final String topicName) {
-        requireNonNull(brokers);
+    public KafkaPublisher(final Producer<String, String> producer, final String topicName) {
+        requireNonNull(producer);
         requireNonNull(topicName);
 
-        final Properties props = new Properties();
-        props.put("bootstrap.servers", brokers);
-        props.put("acks", System.getProperty("kafka.acks", "all"));
-        props.put("retries", System.getProperty("kafka.retries", "0"));
-        props.put("batch.size", System.getProperty("kafka.batch.size", "16384"));
-        props.put("linger.ms", System.getProperty("kafka.linger.ms", "1"));
-        props.put("buffer.memory", System.getProperty("kafka.buffer.memory", "33554432"));
-        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("valud.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-
+        this.producer = producer;
         this.topicName = topicName;
-        this.producer = new KafkaProducer<>(props);
-        LOGGER.info("Created Kafka producer with {}", brokers);
     }
 
     @Override
     public void emit(final Event event) {
         requireNonNull(event, "Cannot emit a null event!");
 
-        serialize(event).ifPresent(message ->
+        serialize(event).ifPresent(message -> {
+            LOGGER.debug("Sending message to Kafka topic: {}", topicName);
             producer.send(
                 new ProducerRecord<>(topicName, event.getTarget().map(IRI::getIRIString).orElse(null),
-                        message)));
-    }
-
-    @Override
-    public void close() throws IOException {
-        LOGGER.info("Shutting down Kafka producer");
-        producer.close();
+                        message));
+        });
     }
 }
