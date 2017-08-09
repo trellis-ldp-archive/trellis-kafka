@@ -1,6 +1,7 @@
 # trellis-kafka
 
 [![Build Status](https://travis-ci.org/trellis-ldp/trellis-kafka.png?branch=master)](https://travis-ci.org/trellis-ldp/trellis-kafka)
+[![Build status](https://ci.appveyor.com/api/projects/status/vh22yy0uj5gm4mqm?svg=true)](https://ci.appveyor.com/project/acoburn/trellis-kafka)
 [![Coverage Status](https://coveralls.io/repos/github/trellis-ldp/trellis-kafka/badge.svg?branch=master)](https://coveralls.io/github/trellis-ldp/trellis-kafka?branch=master)
 
 A Kafka-based messaging connector. This implements an event bridge to a cluster of Kafka brokers.
