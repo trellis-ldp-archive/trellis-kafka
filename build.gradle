@@ -48,15 +48,15 @@ configurations {
 }
 
 dependencies {
-    api group: 'org.trellisldp', name: 'trellis-spi', version: trellisSpiVersion
     api group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.kafka-clients', version: kafkaVersion
+    api group: 'org.trellisldp', name: 'trellis-spi', version: trellisSpiVersion
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 
-    testCompile group: 'junit', name: 'junit', version: junitVersion
-    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
-    testCompile group: 'org.apache.commons', name: 'commons-rdf-simple', version: commonsRdfVersion
-    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+    testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+    testImplementation group: 'junit', name: 'junit', version: junitVersion
+    testImplementation group: 'org.apache.commons', name: 'commons-rdf-simple', version: commonsRdfVersion
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
 
     buildToolsConfig 'org.trellisldp:trellis-build-tools:0.1.1'
 }
