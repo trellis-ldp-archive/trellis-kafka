@@ -15,14 +15,16 @@ package org.trellisldp.kafka;
 
 import static java.util.Objects.requireNonNull;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.trellisldp.spi.EventService.serialize;
+
+import java.util.ServiceLoader;
 
 import org.apache.commons.rdf.api.IRI;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
-import org.trellisldp.spi.Event;
-import org.trellisldp.spi.EventService;
+import org.trellisldp.api.ActivityStreamService;
+import org.trellisldp.api.Event;
+import org.trellisldp.api.EventService;
 
 /**
  * A Kafka message producer capable of publishing messages to a Kafka cluster.
@@ -32,6 +34,9 @@ import org.trellisldp.spi.EventService;
 public class KafkaPublisher implements EventService {
 
     private static final Logger LOGGER = getLogger(KafkaPublisher.class);
+
+    // TODO - JDK9 ServiceLoader::findFirst
+    private static ActivityStreamService service = ServiceLoader.load(ActivityStreamService.class).iterator().next();
 
     private final Producer<String, String> producer;
     private final String topicName;
@@ -53,7 +58,7 @@ public class KafkaPublisher implements EventService {
     public void emit(final Event event) {
         requireNonNull(event, "Cannot emit a null event!");
 
-        serialize(event).ifPresent(message -> {
+        service.serialize(event).ifPresent(message -> {
             LOGGER.debug("Sending message to Kafka topic: {}", topicName);
             producer.send(
                 new ProducerRecord<>(topicName, event.getTarget().map(IRI::getIRIString).orElse(null),
