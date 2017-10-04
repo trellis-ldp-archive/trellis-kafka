@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"org.trellisldp.kafka","l":"KafkaPublisher"}]
