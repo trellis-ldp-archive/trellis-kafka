@@ -13,20 +13,21 @@
  */
 package org.trellisldp.kafka;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.Collections.singleton;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.simple.SimpleRDF;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import org.trellisldp.api.Event;
 import org.trellisldp.api.EventService;
@@ -42,7 +43,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 /**
  * @author acoburn
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnitPlatform.class)
 public class KafkaPublisherTest {
 
     private static final RDF rdf = new SimpleRDF();
@@ -55,8 +56,9 @@ public class KafkaPublisherTest {
     @Mock
     private Event mockEvent;
 
-    @Before
+    @BeforeEach
     public void setUp() {
+        initMocks(this);
         when(mockEvent.getTarget()).thenReturn(of(rdf.createIRI("trellis:repository/resource")));
         when(mockEvent.getAgents()).thenReturn(singleton(Trellis.RepositoryAdministrator));
         when(mockEvent.getIdentifier()).thenReturn(rdf.createIRI("urn:test"));
