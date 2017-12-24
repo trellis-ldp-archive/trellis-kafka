@@ -184,7 +184,7 @@ uploadArchives {
             packaging 'jar'
             url 'http://www.trellisldp.org'
             inceptionYear '2017'
-            name 'Trellis Repository Kafka Messaging Connector'
+            name 'Trellis Kafka Messaging Connector'
             description 'An Kafka connector for a trellis repository'
 
             organization {
@@ -244,7 +244,7 @@ checkstyle {
 
 sonarqube {
     properties {
-        property "sonar.projectName", "Trellis Repository Kafka Connector"
+        property "sonar.projectName", "Trellis Kafka Connector"
         property "sonar.projectKey", "org.trellisldp:trellis-kafka"
         property "sonar.links.homepage", "https://github.com/trellis-ldp/trellis"
         property "sonar.links.issue", "https://github.com/trellis-ldp/trellis-kafka/issues"
