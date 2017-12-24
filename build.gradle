@@ -30,7 +30,7 @@ ext {
     license = 'Apache 2'
 
     /* Dependencies */
-    trellisApiVersion = '0.4.0'
+    trellisVersion = '0.5.0'
     kafkaVersion = '0.11.0.1_1'
     slf4jVersion = '1.7.25'
 
@@ -38,14 +38,13 @@ ext {
     junitVersion = '5.0.2'
     junitPlatformVersion = '1.0.2'
     apiguardianVersion = '1.0.0'
-    mockitoVersion = '2.12.0'
-    commonsRdfVersion = '0.3.0-incubating'
+    mockitoVersion = '2.13.0'
+    commonsRdfVersion = '0.5.0'
     logbackVersion = '1.2.3'
     jacocoVersion = "0.7.9"
-    trellisEventVersion = "0.1.0"
 
     /* OSGi */
-    trellisApiVersionRange = '[0.4,1)'
+    trellisApiVersionRange = '[0.5,1)'
     spiflyVersion = '1.0.8'
     projectOsgiVersion = project.version.replaceAll("-SNAPSHOT", ".SNAPSHOT")
 }
@@ -56,7 +55,7 @@ configurations {
 
 dependencies {
     api group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.kafka-clients', version: kafkaVersion
-    api group: 'org.trellisldp', name: 'trellis-api', version: trellisApiVersion
+    api group: 'org.trellisldp', name: 'trellis-api', version: trellisVersion
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
 
@@ -66,7 +65,7 @@ dependencies {
     testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: junitPlatformVersion
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
     testImplementation group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
-    testImplementation group: 'org.trellisldp', name: 'trellis-event-serialization', version: trellisEventVersion
+    testImplementation group: 'org.trellisldp', name: 'trellis-event-serialization', version: trellisVersion
 
     buildToolsConfig 'org.trellisldp:trellis-build-tools:0.2.0'
 }

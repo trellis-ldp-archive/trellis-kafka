@@ -13,6 +13,7 @@
  */
 package org.trellisldp.kafka;
 
+import static java.time.Instant.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.Collections.singleton;
 import static java.util.Optional.empty;
@@ -20,15 +21,15 @@ import static java.util.Optional.of;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.time.Instant;
+
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.simple.SimpleRDF;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-
 import org.trellisldp.api.Event;
 import org.trellisldp.api.EventService;
 import org.trellisldp.vocabulary.AS;
@@ -50,6 +51,8 @@ public class KafkaPublisherTest {
 
     private final String queueName = "queue";
 
+    private final Instant time = now();
+
     private final MockProducer<String, String> producer = new MockProducer<>(true, new StringSerializer(),
             new StringSerializer());
 
@@ -60,8 +63,9 @@ public class KafkaPublisherTest {
     public void setUp() {
         initMocks(this);
         when(mockEvent.getTarget()).thenReturn(of(rdf.createIRI("trellis:repository/resource")));
-        when(mockEvent.getAgents()).thenReturn(singleton(Trellis.RepositoryAdministrator));
+        when(mockEvent.getAgents()).thenReturn(singleton(Trellis.AdministratorAgent));
         when(mockEvent.getIdentifier()).thenReturn(rdf.createIRI("urn:test"));
+        when(mockEvent.getCreated()).thenReturn(time);
         when(mockEvent.getTypes()).thenReturn(singleton(AS.Update));
         when(mockEvent.getTargetTypes()).thenReturn(singleton(LDP.RDFSource));
         when(mockEvent.getInbox()).thenReturn(empty());
